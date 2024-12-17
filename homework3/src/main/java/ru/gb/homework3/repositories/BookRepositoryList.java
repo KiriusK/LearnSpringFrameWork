@@ -13,14 +13,17 @@ import java.util.List;
 @Primary
 public class BookRepositoryList implements BookRepository {
 
+    private int idGen;
     private final List<Book> booksStorage;
 
     public BookRepositoryList() {
+        idGen = 1;
         this.booksStorage = new ArrayList<>();
     }
 
     @Override
     public void addBook(Book book) {
+        book.setId(idGen++);
         booksStorage.add(book);
     }
 

@@ -6,12 +6,9 @@ public class Book {
     private int id;
     private String name;
     private String author;
-    private static int idGen=1;
 
-//    public Book() {}
 
     public Book(String name, String author) {
-        id = idGen++;
         this.name = name;
         this.author = author;
     }

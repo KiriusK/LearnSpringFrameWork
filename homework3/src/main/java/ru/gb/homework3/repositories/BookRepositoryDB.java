@@ -12,15 +12,18 @@ import java.util.List;
 @Profile(value = "DB")
 public class BookRepositoryDB implements BookRepository{
 
-    private static final String url = "jdbc:h2:mem:main;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:database/schema.sql'";
+    private int idGen;
+    private final String url = "jdbc:h2:mem:main;DB_CLOSE_DELAY=-1;INIT=RUNSCRIPT FROM 'classpath:database/schema.sql'";
     private final Connection con;
 
     public BookRepositoryDB() throws SQLException {
         this.con = DriverManager.getConnection(url);
+        idGen = 1;
     }
 
     @Override
     public void addBook(Book book) {
+        book.setId(idGen++);
         try {
             PreparedStatement statement = con.prepareStatement("INSERT INTO `books` (`id`,`name`,`author`) VALUES (?,?,?);");
             statement.setInt(1, book.getId());
