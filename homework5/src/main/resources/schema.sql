@@ -16,3 +16,4 @@ CREATE TABLE users (
    role VARCHAR(255) NOT NULL,
    CONSTRAINT pk_users PRIMARY KEY (id)
 );
+
