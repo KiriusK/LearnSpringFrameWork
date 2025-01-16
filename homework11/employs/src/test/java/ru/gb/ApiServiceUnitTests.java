@@ -1,3 +1,5 @@
+package ru.gb;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -7,8 +9,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.gb.models.Task;
-import ru.gb.repositories.TaskRepository;
+
+import ru.gb.models.Employee;
+import ru.gb.repositories.EmployeeRepository;
 import ru.gb.services.ApiService;
 
 import java.util.Collections;
@@ -23,7 +26,7 @@ public class ApiServiceUnitTests {
     private ApiService service;
 
     @Mock
-    private TaskRepository repository;
+    private EmployeeRepository repository;
 
     @BeforeAll
     public void setupBefore() {
@@ -32,53 +35,53 @@ public class ApiServiceUnitTests {
 
     @Test
     public void testGetAllEmploys() {
-        Task task = new Task();
-        task.setName("test task");
-        task.setDescription("test task descript");
-        List<Task> assertEmpl = Collections.singletonList(task);
+        Employee employee = new Employee();
+        employee.setName("testEmpl");
+        employee.setSalary(10000);
+        List<Employee> assertEmpl = Collections.singletonList(employee);
         Mockito.when(repository.findAll()).thenReturn(assertEmpl);
 
-        List<Task> resultTask = service.getAllTasks();
+        List<Employee> resultEmpl = service.getAllEmploys();
 
-        Assert.assertEquals(assertEmpl, resultTask);
+        Assert.assertEquals(assertEmpl, resultEmpl);
     }
 
     @Test
     public void testGetEmployeeById() {
-        Task task = new Task();
-        task.setName("test task");
-        task.setDescription("test task descript");
+        Employee employee = new Employee();
+        employee.setName("testEmpl");
+        employee.setSalary(10000);
         long id = 1L;
-        Mockito.when(repository.findById(id)).thenReturn(Optional.of(task));
+        Mockito.when(repository.findById(id)).thenReturn(Optional.of(employee));
 
-        Task resultTask = service.getTaskById(id);
+        Employee resultEmpl = service.getEmployeeById(1L);
 
         Mockito.verify(repository, Mockito.times(1)).findById(id);
-        Assert.assertEquals(task, resultTask);
+        Assert.assertEquals(employee, resultEmpl);
     }
 
     @Test
     public void testGetEmployeeByErrorId() {
         long id = 1L;
 
-        Task resultTask = service.getTaskById(id);
+        Employee resultEmpl = service.getEmployeeById(1L);
 
         Mockito.verify(repository, Mockito.times(1)).findById(id);
-        Assert.assertNull(resultTask);
+        Assert.assertNull(resultEmpl);
     }
 
     @Test
     public void testDeleteEmployeeById() {
-        Task task = new Task();
-        task.setName("test task");
-        task.setDescription("test task descript");
+        Employee employee = new Employee();
+        employee.setName("testEmpl");
+        employee.setSalary(10000);
         long id = 1L;
-        Mockito.when(repository.findById(id)).thenReturn(Optional.of(task));
+        Mockito.when(repository.findById(id)).thenReturn(Optional.of(employee));
 
-        boolean result = service.deleteTaskById(id);
+        boolean result = service.deleteEmployeeById(id);
 
         Mockito.verify(repository, Mockito.times(1)).findById(id);
-        Mockito.verify(repository, Mockito.times(1)).delete(task);
+        Mockito.verify(repository, Mockito.times(1)).delete(employee);
         Assert.assertTrue(result);
     }
 
@@ -86,7 +89,7 @@ public class ApiServiceUnitTests {
     public void testDeleteEmployeeByErrorId() {
         long id = 1L;
 
-        boolean result = service.deleteTaskById(id);
+        boolean result = service.deleteEmployeeById(id);
 
         Mockito.verify(repository, Mockito.times(1)).findById(id);
         Mockito.verifyNoMoreInteractions(repository);
@@ -95,12 +98,12 @@ public class ApiServiceUnitTests {
 
     @Test
     public void testAddEmployee() {
-        Task task = new Task();
-        task.setName("test task");
-        task.setDescription("test task descript");
+        Employee employee = new Employee();
+        employee.setName("testEmpl");
+        employee.setSalary(10000);
 
-        service.addTask(task);
+        service.addEmployee(employee);
 
-        Mockito.verify(repository, Mockito.times(1)).save(task);
+        Mockito.verify(repository, Mockito.times(1)).save(employee);
     }
 }

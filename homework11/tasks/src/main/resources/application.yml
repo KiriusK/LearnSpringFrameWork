@@ -1,0 +1,24 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: Tasks
+  datasource:
+    url: jdbc:h2:mem:taskdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,info,beans,prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true
