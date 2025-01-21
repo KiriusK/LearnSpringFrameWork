@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: Gateway
+  cloud:
+    gateway:
+      routes:
+        - id: Employs
+          uri: http://localhost:8081/
+          predicates:
+            - Path=/employs/**
+        - id: Tasks
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/tasks/**
